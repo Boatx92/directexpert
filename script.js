@@ -1,4 +1,4 @@
-import ai from "gemini-config.js"
+import ai from "./gemini-config.js"
 // --- DATABASE KEYS ---
 const CLIENTS_DB_KEY = 'directexpert_clients';
 const EXPERTS_DB_KEY = 'directexpert_experts';
@@ -63,6 +63,8 @@ function showPage(pageId) {
     
     updateNav();
 }
+
+window.showPage=showPage;
 
 function goHome() {
     const session = getSession();
