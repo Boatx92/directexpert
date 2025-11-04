@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DirectExpert - Expert Connect Platform</title>
+    
+    <!-- Tailwind CSS CDN (Required for the design) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Your Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header id="main-header" class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            
+            <!-- Logo and Name -->
+            <a href="#" onclick="goHome()" class="flex items-center space-x-2">
+                <svg class="h-8 w-auto text-indigo-600" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 10C8 8.89543 8.89543 8 10 8H22C23.1046 8 24 8.89543 24 10V18C24 19.1046 23.1046 20 22 20H18.5L15 23.5V20H10C8.89543 20 8 19.1046 8 18V10Z" fill="currentColor"/>
+                    <path d="M14.5 4H26C27.1046 4 28 4.89543 28 6V14C28 15.1046 27.1046 16 26 16H24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-2xl font-bold text-indigo-600">DirectExpert</span>
+            </a>
+            
+            <!-- Guest Navigation -->
+            <div id="nav-guest" class="flex items-center space-x-4">
+                <a href="#features-home" class="text-gray-600 hover:text-indigo-600 hidden sm:block">How it Works</a>
+                <button onclick="showPage('page-client-login')" class="text-gray-600 hover:text-indigo-600">Client Login</button>
+                <button onclick="showPage('page-expert-login')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition duration-300">
+                    Expert Login
+                </button>
+            </div>
+
+            <!-- Client Navigation (Hidden by default) -->
+            <div id="nav-client" class="hidden items-center space-x-4">
+                <a href="#" onclick="showPage('page-client-dashboard')" class="text-gray-600 hover:text-indigo-600 hidden sm:block">Browse</a>
+                <a href="#" onclick="showPage('page-ai-assistant')" class="text-gray-600 hover:text-indigo-600 hidden sm:block">AI Assistant</a>
+                
+                <!-- Profile Icon -->
+                <button onclick="showClientProfile()" class="text-gray-500 hover:text-indigo-600" title="My Profile">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </button>
+
+                <button onclick="logout()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition duration-300">
+                    Logout
+                </button>
+            </div>
+
+            <!-- Expert Navigation (Hidden by default) -->
+            <div id="nav-expert" class="hidden items-center space-x-4">
+                
+                <!-- Profile Icon -->
+                <button onclick="showPage('page-expert-dashboard')" class="text-gray-500 hover:text-indigo-600" title="My Dashboard">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </button>
+
+                <button onclick="logout()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition duration-300">
+                    Logout
+                </button>
+            </div>
+
+        </nav>
+    </header>
+
+    <!-- 
+    ============================================================
+    PAGE: HOME
+    ============================================================
+    -->
+    <main id="page-home" class="page active">
+        <!-- Hero Section -->
+        <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                Access Decades of Experience.
+                <span class="text-indigo-600">Instantly.</span>
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+                Your platform for connecting directly with retired doctors, chartered accountants, lawyers, and other top-tier professionals for one-on-one advice.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <button onclick="showPage('page-client-login')" class="bg-indigo-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-indigo-700 transition duration-300 shadow-lg">
+                    Find an Expert Now
+                </button>
+                <button onclick="showPage('page-expert-login')" class="bg-white text-indigo-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-100 transition duration-300 shadow-lg border border-gray-300">
+                    I'm an Expert
+                </button>
+            </div>
+        </section>
+
+        <!-- How it Works Section -->
+        <section id="features-home" class="bg-white py-16 sm:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">How It Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Step 1 -->
+                    <div class="text-center p-6 border border-gray-200 rounded-xl bg-gray-50">
+                        <div class="flex items-center justify-center h-16 w-16 bg-indigo-100 text-indigo-600 rounded-full mx-auto text-3xl font-bold">1</div>
+                        <h3 class="mt-6 text-xl font-semibold text-gray-900">Choose a Profession</h3>
+                        <p class="mt-2 text-gray-600">
+                            Login and browse our list of over 70 professional categories, from medicine to finance.
+                        </p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="text-center p-6 border border-gray-200 rounded-xl bg-gray-50">
+                        <div class="flex items-center justify-center h-16 w-16 bg-indigo-100 text-indigo-600 rounded-full mx-auto text-3xl font-bold">2</div>
+                        <h3 class="mt-6 text-xl font-semibold text-gray-900">Select Your Specialist</h3>
+                        <p class="mt-2 text-gray-600">
+                            View profiles, experience, and ratings for dozens of specialists within that field.
+                        </p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="text-center p-6 border border-gray-200 rounded-xl bg-gray-50">
+                        <div class="flex items-center justify-center h-16 w-16 bg-indigo-100 text-indigo-600 rounded-full mx-auto text-3xl font-bold">3</div>
+                        <h3 class="mt-6 text-xl font-semibold text-gray-900">Get Your Solution</h3>
+                        <p class="mt-2 text-gray-600">
+                            Book a direct consultation and get the trusted, high-level advice you need.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 
+    ============================================================
+    PAGE: CLIENT LOGIN/SIGNUP (NEW BACKGROUND)
+    ============================================================
+    -->
+    <section id="page-client-login" class="page py-16 sm:py-24 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop');">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-center relative z-10"> <!-- Make container relative to be on top -->
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md">
+                
+                <!-- Sign Up Form -->
+                <div id="client-signup-form">
+                    <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                        <h3 class="text-2xl font-semibold text-gray-900">Create Your Client Account</h3>
+                    </div>
+                    <form class="p-6 space-y-4" onsubmit="handleClientSignup(event)">
+                        <div id="client-signup-error" class="hidden p-3 rounded-lg bg-red-50 text-red-700"></div>
+                        <div>
+                            <label for="client-name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" id="client-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your name">
+                        </div>
+                        <div>
+                            <label for="client-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" id="client-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="you@example.com">
+                        </div>
+                        <!-- Phone Number -->
+                        <div>
+                            <label for="client-phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                            <input type="tel" id="client-phone" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="+91 12345 67890">
+                        </div>
+                        <div>
+                            <label for="client-password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="client-password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
+                            Sign Up
+                        </button>
+                        <p class="text-sm text-center text-gray-500">
+                            Already have an account? 
+                            <button type="button" onclick="toggleClientForm('login')" class="text-indigo-600 hover:underline font-medium">Log In</button>
+                        </p>
+                    </form>
+                </div>
+
+                <!-- Login Form -->
+                <div id="client-login-form" class="hidden">
+                    <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                        <h3 class="text-2xl font-semibold text-gray-900">Client Login</h3>
+                    </div>
+                    <form class="p-6 space-y-4" onsubmit="handleClientLogin(event)">
+                        <div id="client-login-error" class="hidden p-3 rounded-lg bg-red-50 text-red-700"></div>
+                        <div>
+                            <label for="client-login-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" id="client-login-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="you@example.com">
+                        </div>
+                        <div>
+                            <label for="client-login-password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="client-login-password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
+                            Log In
+                        </button>
+                        <p class="text-sm text-center text-gray-500">
+                            Don't have an account? 
+                            <button type="button" onclick="toggleClientForm('signup')" class="text-indigo-600 hover:underline font-medium">Sign Up</button>
+                        </p>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    ============================================================
+    PAGE: EXPERT LOGIN/SIGNUP (NEW BACKGROUND)
+    ============================================================
+    -->
+    <section id="page-expert-login" class="page py-16 sm:py-24 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop');">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-center relative z-10">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg">
+
+                <!-- Sign Up Form -->
+                <div id="expert-signup-form">
+                    <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                        <h3 class="text-2xl font-semibold text-gray-900">Join as an Expert</h3>
+                    </div>
+                    <form class="p-6 space-y-4" onsubmit="handleExpertSignup(event)">
+                        <div id="expert-signup-error" class="hidden p-3 rounded-lg bg-red-50 text-red-700"></div>
+                        
+                        <!-- Basic Info -->
+                        <h4 class="text-lg font-medium text-gray-800 border-b pb-2">1. Basic Information</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="expert-name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" id="expert-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Dr. Jane Doe">
+                            </div>
+                            <div>
+                                <label for="expert-phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                <input type="tel" id="expert-phone" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="+91 12345 67890">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="expert-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" id="expert-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="you@example.com">
+                        </div>
+                        <div>
+                            <label for="expert-password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="expert-password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="••••••••">
+                        </div>
+
+                        <!-- Professional Info -->
+                        <h4 class="text-lg font-medium text-gray-800 border-b pb-2 pt-4">2. Professional Details</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="expert-profession" class="block text-sm font-medium text-gray-700">Profession</label>
+                                <select id="expert-profession" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                            <div>
+                                <label for="expert-experience" class="block text-sm font-medium text-gray-700">Years of Experience</label>
+                                <input type="number" id="expert-experience" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="30">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="expert-bio" class="block text-sm font-medium text-gray-700">Short Bio</label>
+                            <textarea id="expert-bio" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" rows="3" placeholder="A brief summary of your career and expertise..."></textarea>
+                        </div>
+                        
+                        <!-- Document Uploads -->
+                        <h4 class="text-lg font-medium text-gray-800 border-b pb-2 pt-4">3. Verification Documents</h4>
+                        <p class="text-sm text-gray-500">These documents are for verification only and will not be shared publicly.</p>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="expert-photo" class="block text-sm font-medium text-gray-700">Profile Photo</label>
+                                <input type="file" id="expert-photo" accept="image/png, image/jpeg" class="mt-1 block w-full text-gray-700">
+                            </div>
+                            <div>
+                                <label for="expert-id" class="block text-sm font-medium text-gray-700">Aadhaar / PAN Card</label>
+                                <input type="file" id="expert-id" accept="application/pdf, image/png, image/jpeg" class="mt-1 block w-full text-gray-700">
+                            </div>
+                            <div>
+                                <label for="expert-degree" class="block text-sm font-medium text-gray-700">Degree / Qualification</label>
+                                <input type="file" id="expert-degree" accept="application/pdf, image/png, image/jpeg" class="mt-1 block w-full text-gray-700">
+                            </div>
+                            <div>
+                                <label for="expert-experience-doc" class="block text-sm font-medium text-gray-700">Experience Letter (Optional)</label>
+                                <input type="file" id="expert-experience-doc" accept="application/pdf, image/png, image/jpeg" class="mt-1 block w-full text-gray-700">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full mt-6 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
+                            Apply to Join
+                        </button>
+                        <p class="text-sm text-center text-gray-500">
+                            Already have an account? 
+                            <button type="button" onclick="toggleExpertForm('login')" class="text-indigo-600 hover:underline font-medium">Log In</button>
+                        </p>
+                    </form>
+                </div>
+
+                <!-- Login Form -->
+                <div id="expert-login-form" class="hidden">
+                    <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                        <h3 class="text-2xl font-semibold text-gray-900">Expert Login</h3>
+                    </div>
+                    <form class="p-6 space-y-4" onsubmit="handleExpertLogin(event)">
+                        <div id="expert-login-error" class="hidden p-3 rounded-lg bg-red-50 text-red-700"></div>
+                        <div>
+                            <label for="expert-login-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" id="expert-login-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="you@example.com">
+                        </div>
+                        <div>
+                            <label for="expert-login-password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="expert-login-password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
+                            Log In
+                        </button>
+                        <p class="text-sm text-center text-gray-500">
+                            Don't have an account? 
+                            <button type="button" onclick="toggleExpertForm('signup')" class="text-indigo-600 hover:underline font-medium">Apply</button>
+                        </p>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    ============================================================
+    PAGE: CLIENT DASHBOARD (PROFESSIONS LIST)
+    ============================================================
+    -->
+    <section id="page-client-dashboard" class="page py-16 sm:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 id="client-dashboard-title" class="text-3xl font-bold text-gray-900 mb-4">Welcome, Client!</h1>
+            
+            <!-- AI Assistant Card -->
+            <div class="bg-indigo-600 text-white p-6 sm:p-8 rounded-xl shadow-lg mb-12 relative overflow-hidden">
+                <div class="absolute -right-12 -top-12 w-48 h-48 bg-indigo-500 rounded-full opacity-50"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-bold">Have a general question?</h2>
+                    <p class="mt-2 text-indigo-100 max-w-2xl">
+                        Try our new AI Assistant. It uses Google Search to provide quick, summarized answers for general-purpose queries. Save the experts for your specific, complex problems!
+                    </p>
+                    <button onclick="showPage('page-ai-assistant')" class="mt-5 bg-white text-indigo-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
+                        Ask AI Assistant
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search Professions -->
+            <div class="mb-8">
+                <label for="profession-search" class="block text-xl text-gray-600 mb-2">Find a Human Expert</label>
+                <div class="relative">
+                    <input type="text" id="profession-search" onkeyup="searchProfessions()" class="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g., 'Lawyer' or 'Accountant'">
+                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Professions List -->
+            <div id="professions-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Profession cards will be injected here by JavaScript -->
+            </div>
+            <p id="professions-no-results" class="hidden text-gray-500 text-center text-lg">No professions found matching your search.</p>
+        </div>
+    </section>
+
+    <!-- 
+    ============================================================
+    PAGE: SPECIALIST LIST
+    ============================================================
+    -->
+    <section id="page-specialist-list" class="page py-16 sm:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <button onclick="showPage('page-client-dashboard')" class="text-indigo-600 hover:text-indigo-800 font-medium mb-4">&larr; Back to Professions</button>
+            <h1 id="specialist-list-title" class="text-3xl font-bold text-gray-900 mb-6">Specialists</h1>
+            
+            <!-- Search Specialists -->
+            <div class="mb-12">
+                <div class="relative">
+                    <input type="text" id="specialist-search" onkeyup="searchSpecialists()" class="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Search by name...">
+                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Specialist "Spece List" -->
+            <div id="specialist-list-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Specialist cards will be injected here by JavaScript -->
+            </div>
+            <p id="specialist-no-results" class="hidden text-gray-500 text-center text-lg">No specialists found for this profession. Be the first expert to sign up!</p>
+        </div>
+    </section>
+
+    <!-- 
+    ============================================================
+    PAGE: SPECIALIST PROFILE
+    ============================================================
+    -->
+    <section id="page-specialist-profile" class="page py-16 sm:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+            <button onclick="showPage('page-specialist-list')" class="text-indigo-600 hover:text-indigo-800 font-medium mb-4">&larr; Back to List</button>
+            
+            <div class="bg-white rounded-xl shadow-2xl overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:flex-shrink-0">
+                        <img id="profile-img" class="h-48 w-full object-cover md:w-48" src="https://placehold.co/400x400/a3a3a3/ffffff?text=Profile" alt="Specialist Profile">
+                    </div>
+                    <div class="p-8">
+                        <h1 id="profile-name" class="text-3xl font-bold text-gray-900">Specialist Name</h1>
+                        <p id="profile-title" class="text-xl text-indigo-600 font-medium mt-1">Profession</p>
+                        <p id="profile-experience" class="text-md text-gray-500 mt-2">XX years of experience</p>
+                        
+                        <button onclick="openBookingModal()" class="mt-6 w-full bg-indigo-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-indigo-700 transition duration-300 shadow-lg">
+                            Book a Consultation
+                        </button>
+                    </div>
+                </div>
+                <div class="p-8 border-t border-gray-200">
+                    <h2 class="text-2xl font-semibold text-gray-900">About</h2>
+                    <p id="profile-bio" class="mt-4 text-gray-600 leading-relaxed">
+                        Detailed bio will go here...
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- 
+    ============================================================
+    PAGE: AI ASSISTANT
+    ============================================================
+    -->
+    <section id="page-ai-assistant" class="page py-16 sm:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+            <button onclick="showPage('page-client-dashboard')" class="text-indigo-600 hover:text-indigo-800 font-medium mb-4">&larr; Back to Dashboard</button>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">AI Assistant</h1>
+            <p class="text-lg text-gray-600 mb-6">Ask any general question. Our AI will search Google and provide a summarized answer.</p>
+
+            <!-- AI Query Form -->
+            <form id="ai-query-form" onsubmit="handleAiQuery(event)">
+                <label for="ai-query-input" class="block text-sm font-medium text-gray-700">Your Question:</label>
+                <textarea id="ai-query-input" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" rows="4" placeholder="e.g., 'What are the key differences between a traditional IRA and a Roth IRA?'" required></textarea>
+                <button id="ai-query-button" type="submit" class="w-full mt-4 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
+                    Get AI Answer
+                </button>
+            </form>
+
+            <!-- Loading Spinner -->
+            <div id="ai-loader" class="hidden my-8 text-center">
+                <svg class="animate-spin h-8 w-8 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="text-gray-600 mt-4">Searching Google and generating your answer... This may take a moment.</p>
+            </div>
+
+            <!-- Results Area -->
+            <div id="ai-results" class="hidden mt-12">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-semibold text-gray-900">Here's what I found:</h2>
+                    <!-- whitespace-pre-wrap preserves newlines from the AI -->
+                    <div id="ai-answer" class="mt-4 text-gray-700 leading-relaxed whitespace-pre-wrap"></div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-900 mt-8 pt-6 border-t border-gray-200">Sources (from Google Search)</h3>
+                    <ul id="ai-sources" class="mt-4 list-decimal list-inside space-y-2">
+                        <!-- Sources will be injected here by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    ============================================================
+    PAGE: EXPERT DASHBOARD
+    ============================================================
+    -->
+    <section id="page-expert-dashboard" class="page py-16 sm:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 id="expert-dashboard-title" class="text-3xl font-bold text-gray-900 mb-12">Expert Dashboard</h1>
+            
+            <!-- UPDATED: Upcoming Appointments -->
+            <div id="expert-appointments" class="bg-white p-8 rounded-xl shadow-lg mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900">Upcoming Appointments</h2>
+                <div id="expert-appointments-list" class="mt-4 space-y-4">
+                    <!-- Appointments will be injected here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Profile Info -->
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-semibold text-gray-900">Your Profile</h2>
+                <p class="mt-4 text-gray-600">This is where you would manage your availability. Your public details are below.</p>
+                <div class="mt-6 p-6 bg-gray-50 rounded-lg">
+                    <h3 class="font-semibold text-lg">My Profile (Data from Sign up)</h3>
+                    <p id="expert-profile-data" class="mt-2 text-gray-700"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 
+    ============================================================
+    PAGE: CLIENT PROFILE
+    ============================================================
+    -->
+    <section id="page-client-profile" class="page py-16 sm:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+            <h1 class="text-3xl font-bold text-gray-900 mb-8">My Profile</h1>
+            
+            <!-- Basic Details -->
+            <div class="bg-white p-8 rounded-xl shadow-lg mb-8">
+                <h2 class="text-2xl font-semibold text-gray-900">My Details</h2>
+                <div id="client-profile-details" class="mt-4 text-gray-700 space-y-2">
+                    <!-- Client details will be injected here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Booking History -->
+            <div class="bg-white p-8 rounded-xl shadow-lg mb-8">
+                <h2 class="text-2xl font-semibold text-gray-900">My Booking History</h2>
+                <div id="client-booking-history" class="mt-4 space-y-4">
+                    <!-- Booking history will be injected here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- AI History -->
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-semibold text-gray-900">My AI Question History</h2>
+                <div id="client-ai-history" class="mt-4 space-y-4">
+                    <!-- AI history will be injected here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    ============================================================
+    NEW PAGE: COMMUNICATION (THE CALL)
+    ============================================================
+    -->
+    <section id="page-communication" class="page bg-gray-900 text-white relative overflow-hidden">
+        
+        <!-- Main Content (Video + Chat) -->
+        <div class="flex-grow flex relative">
+            
+            <!-- Main Video Area -->
+            <div class="flex-grow flex flex-col items-center justify-center p-4">
+                <h2 id="comm-header-title" class="text-2xl font-semibold mb-4">Connecting...</h2>
+                <div class="w-full max-w-4xl aspect-video bg-black rounded-lg flex items-center justify-center shadow-2xl">
+                    <div class="text-center">
+                        <svg class="h-16 w-16 text-gray-700 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                        </svg>
+                        <p id="comm-main-video-name" class="text-2xl font-medium mt-4 text-gray-400">Other Person's Name</p>
+                        <p class="text-gray-500">(Video feed simulation)</p>
+                    </div>
+                </div>
+                <!-- Self-View (Small Box) -->
+                <div class="absolute bottom-24 right-8 w-48 h-36 bg-black border-2 border-gray-700 rounded-lg flex items-center justify-center text-sm">
+                    <p id="comm-self-video-name" class="text-gray-400">Your Name</p>
+                </div>
+            </div>
+
+            <!-- Chat Sidebar -->
+            <div id="comm-chat-sidebar" class="w-80 bg-gray-800 border-l border-gray-700 flex flex-col absolute top-0 right-0 h-full z-10">
+                <div class="p-4 flex justify-between items-center border-b border-gray-700">
+                    <h3 class="text-lg font-semibold">Chat</h3>
+                    <button onclick="toggleChat()" class="text-gray-400 hover:text-white">&times;</button>
+                </div>
+                <div class="flex-grow p-4 space-y-4 overflow-y-auto">
+                    <!-- Sample Chat Messages -->
+                    <div class="text-sm">
+                        <span class="font-semibold text-indigo-300">System</span>
+                        <p class="bg-gray-700 p-2 rounded-lg inline-block">You have joined the call.</p>
+                    </div>
+                    <div class="text-sm">
+                        <span id="comm-chat-other-name" class="font-semibold text-green-300">Other Person</span>
+                        <p class="bg-gray-700 p-2 rounded-lg inline-block">Hello! I see you've joined.</p>
+                    </div>
+                </div>
+                <div class="p-4 border-t border-gray-700">
+                    <input type="text" class="w-full bg-gray-700 text-white p-2 rounded-lg" placeholder="Type a message...">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Control Bar -->
+        <div class="w-full bg-gray-900 border-t border-gray-700 p-4 flex justify-center items-center space-x-4">
+            <!-- Mute Button -->
+            <button class="bg-gray-700 hover:bg-gray-600 text-white p-3 rounded-full" title="Mute">
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a.75.75 0 00.75-.75V6.038a.75.75 0 00-1.5 0v11.962a.75.75 0 00.75.75zM10.5 18.75a.75.75 0 00.75-.75V6.038a.75.75 0 00-1.5 0v11.962a.75.75 0 00.75.75zM13.5 18.75a.75.75 0 00.75-.75V6.038a.75.75 0 00-1.5 0v11.962a.75.75 0 00.75.75z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 12.75c0 .414.336.75.75.75h3c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3c-.414 0-.75.336-.75.75zM9 15.75c0 .414.336.75.75.75h4.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-4.5c-.414 0-.75.336-.75.75zM9.75 9.75c0 .414.336.75.75.75h3c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3c-.414 0-.75.336-.75.75z" />
+                </svg>
+            </button>
+            <!-- Video Button -->
+            <button class="bg-gray-700 hover:bg-gray-600 text-white p-3 rounded-full" title="Stop Video">
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+            </button>
+            <!-- Chat Button -->
+            <button onclick="toggleChat()" class="bg-gray-700 hover:bg-gray-600 text-white p-3 rounded-full" title="Toggle Chat">
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443h2.39a2.25 2.25 0 002.25-2.25v-6.03a2.25 2.25 0 00-2.25-2.25H4.5A2.25 2.25 0 002.25 12.76z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12.76v.003a2.25 2.25 0 01-2.25 2.25h-2.39a1.526 1.526 0 00-1.037.443L10.5 21v-2.73a8.906 8.906 0 00-3.293-.369A2.25 2.25 0 012.25 15.76V12.76M19.5 12.76a2.25 2.25 0 00-2.25-2.25H4.5a2.25 2.25 0 00-2.25 2.25m17.25 0a2.25 2.25 0 00-2.25-2.25M15 9.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                </svg>
+            </button>
+            <!-- End Call Button -->
+            <button onclick="endCall()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-semibold ml-8">
+                End Call
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="main-footer" class="bg-white border-t border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-gray-500">
+            <!-- UPDATED FOOTER -->
+            <p>A college project created by team Xpertnet</p>
+        </div>
+    </footer>
+
+    <!-- 
+    ============================================================
+    MODAL: BOOKING
+    ============================================================
+    -->
+    <div id="booking-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-auto">
+            
+            <!-- Step 1: Booking Options -->
+            <div id="booking-options">
+                <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                    <h3 id="booking-modal-title" class="text-2xl font-semibold text-gray-900">Book a Consultation</h3>
+                    <button onclick="closeBookingModal()" class="text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
+                </div>
+                <div class="p-6 space-y-6">
+                    <!-- Option 1: Urgent -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-800">Urgent Consultation</h4>
+                        <p class="text-gray-600 text-sm mb-3">Get immediate help (15-minute call).</p>
+                        <button onclick="handleUrgentBooking()" class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300">
+                            Book Urgent Slot Now
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <span class="flex-grow border-t border-gray-300"></span>
+                        <span class="px-4 text-gray-500 font-medium">OR</span>
+                        <span class="flex-grow border-t border-gray-300"></span>
+                    </div>
+
+                    <!-- Option 2: Schedule -->
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-800">Schedule for Later</h4>
+                        <p class="text-gray-600 text-sm mb-3">Choose a date and time that works for you.</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="booking-date" class="block text-sm font-medium text-gray-700">Date</label>
+                                <input type="date" id="booking-date" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label for="booking-time" class="block text-sm font-medium text-gray-700">Time</label>
+                                <input type="time" id="booking-time" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <button onclick="handleScheduledBooking()" class="mt-4 w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
+                            Schedule Booking
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Payment Form -->
+            <div id="payment-form" class="hidden">
+                <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                    <h3 class="text-2xl font-semibold text-gray-900">Complete Your Payment</h3>
+                    <button onclick="closeBookingModal()" class="text-gray-400 hover:text-gray-600 text-3xl">&times;</button>
+                </div>
+                <form class="p-6 space-y-4" onsubmit="handlePayment(event)">
+                    <div id="payment-error" class="hidden p-3 rounded-lg bg-red-50 text-red-700"></div>
+                    <p id="payment-summary" class="text-gray-700 text-lg font-medium text-center"></p>
+                    <div>
+                        <label for="card-name" class="block text-sm font-medium text-gray-700">Name on Card</label>
+                        <input type="text" id="card-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" value="Test User">
+                    </div>
+                    <div>
+                        <label for="card-number" class="block text-sm font-medium text-gray-700">Card Number</label>
+                        <input type="text" id="card-number" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" value="4242 4242 4242 4242">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="card-expiry" class="block text-sm font-medium text-gray-700">Expiry (MM/YY)</label>
+                            <input type="text" id="card-expiry" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" value="12/28">
+                        </div>
+                        <div>
+                            <label for="card-cvc" class="block text-sm font-medium text-gray-700">CVC</label>
+                            <input type="text" id="card-cvc" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" value="123">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                        Pay & Confirm Booking
+                    </button>
+                </form>
+            </div>
+
+            <!-- Step 3: Booking Confirmation -->
+            <div id="booking-confirmation" class="hidden p-8 text-center">
+                <div class="flex items-center justify-center h-16 w-16 bg-green-100 text-green-600 rounded-full mx-auto text-3xl font-bold">✓</div>
+                <h3 class="mt-6 text-2xl font-semibold text-gray-900">Booking Confirmed!</h3>
+                <p id="booking-confirmation-message" class="mt-2 text-gray-600"></p>
+                <p class="mt-4 text-sm text-gray-500">Your booking has been added to your profile.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 
+    ============================================================
+    JAVASCRIPT FILE
+    ============================================================
+    -->
+    <script src="script.js"></script>
+
+</body>
+</html>
