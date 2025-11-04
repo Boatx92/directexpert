@@ -1,3 +1,4 @@
+import ai from "gemini-config.js";
 // --- DATABASE KEYS ---
 const CLIENTS_DB_KEY = 'directexpert_clients';
 const EXPERTS_DB_KEY = 'directexpert_experts';
@@ -871,7 +872,7 @@ function displayAiResults(text, sources) {
 }
 
 async function callGeminiApi(query, retries = 3, delay = 1000) {
-    const apiKey = "AIzaSyDwwmvdPEQB8sxQFEVYwX4jtHb2OGo5Jng";
+    const apiKey = ai;
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
     const payload = {
