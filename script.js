@@ -871,7 +871,7 @@ function displayAiResults(text, sources) {
 }
 
 async function callGeminiApi(query, retries = 3, delay = 1000) {
-    const apiKey = "AIzaSyDwwmvdPEQB8sxQFEVYwX4jtHb2OGo5Jng";
+    const apiKey = "AIzaSyCYI1LQj6mGX6eiIscTadbhO0rMbCnmsaw";
 
     //✅ Correct endpoint for current Gemini API (2025)
     const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
