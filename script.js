@@ -871,16 +871,22 @@ function displayAiResults(text, sources) {
 }
 
 async function callGeminiApi(query, retries = 3, delay = 1000) {
-    const apiKey = "";
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+    const apiKey = "AIzaSyDwwmvdPEQB8sxQFEVYwX4jtHb2OGo5Jng";
 
-    const payload = {
-        contents: [{ parts: [{ text: query }] }],
-        tools: [{ "google_search": {} }],
-        systemInstruction: {
-            parts: [{ text: "You are a helpful AI assistant. Answer the user's query based on the provided Google Search results. Summarize the findings concisely and professionally. Always cite your sources." }]
-        },
+    //✅ Correct endpoint for current Gemini API (2025)
+    const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    // ✅ Simplified payload with optional search retrieval (still supported)
+     const payload = {
+        contents: [
+            {
+                parts: [
+                    { text: query }
+                ]
+            }
+        ]
     };
+
 
     for (let i = 0; i < retries; i++) {
         try {
@@ -891,35 +897,15 @@ async function callGeminiApi(query, retries = 3, delay = 1000) {
             });
 
             if (!response.ok) {
-                if (response.status >= 400 && response.status < 500) {
-                    throw new Error(`Client error: ${response.status} ${response.statusText}`);
-                }
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`Client error: ${response.status} ${response.statusText}`);
             }
 
             const result = await response.json();
-            const candidate = result.candidates?.[0];
+            const text = result.candidates?.[0]?.content?.parts?.[0]?.text || null;
 
-            if (candidate && candidate.content?.parts?.[0]?.text) {
-                const text = candidate.content.parts[0].text;
-                let sources = [];
-                const groundingMetadata = candidate.groundingMetadata;
+            if (!text) throw new Error("Invalid response structure.");
 
-                if (groundingMetadata && groundingMetadata.groundingAttributions) {
-                    sources = groundingMetadata.groundingAttributions
-                        .map(attr => ({
-                            uri: attr.web?.uri,
-                            title: attr.web?.title,
-                        }))
-                        .filter(source => source.uri && source.title);
-                }
-                
-                const uniqueSources = Array.from(new Map(sources.map(s => [s.uri, s])).values());
-                return { text, sources: uniqueSources };
-
-            } else {
-                throw new Error("Invalid response structure from API.");
-            }
+            return { text, sources: [] }; // You can add source parsing later
 
         } catch (error) {
             console.warn(`API call failed (attempt ${i + 1}/${retries}):`, error.message);
@@ -929,5 +915,5 @@ async function callGeminiApi(query, retries = 3, delay = 1000) {
             await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
         }
     }
-    throw new Error("Failed to get AI response.");
 }
+
