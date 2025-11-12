@@ -545,6 +545,131 @@ function handlePaymentCore(event){
     },900);
 }
 
+
+// ============================================================
+// AI ASSISTANT FUNCTIONS
+// ============================================================
+
+async function handleAiQuery(event) {
+    event.preventDefault();
+    const input = document.getElementById('ai-query-input');
+    const query = input.value;
+    if (!query) return;
+
+    displayAiLoading(true);
+    document.getElementById('ai-results').classList.add('hidden');
+
+    try {
+        const result = await callGeminiApi(query);
+        displayAiResults(result.text, result.sources);
+
+        const session = getSession();
+        if (session && session.type === 'client') {
+            const aiHistory = getStorage(AI_HISTORY_DB_KEY);
+            aiHistory.push({
+                clientEmail: session.email,
+                query: query,
+                answer: result.text
+            });
+            setStorage(AI_HISTORY_DB_KEY, aiHistory);
+        }
+
+    } catch (error) {
+        console.error("AI Query Error:", error);
+        displayAiResults("Sorry, I encountered an error while processing your request. Please try again.", []);
+    } finally {
+        displayAiLoading(false);
+    }
+}
+
+function displayAiLoading(isLoading) {
+    const loader = document.getElementById('ai-loader');
+    const button = document.getElementById('ai-query-button');
+    const input = document.getElementById('ai-query-input');
+
+    if (isLoading) {
+        loader.classList.remove('hidden');
+        button.disabled = true;
+        button.classList.add('opacity-50', 'cursor-not-allowed');
+        input.disabled = true;
+    } else {
+        loader.classList.add('hidden');
+        button.disabled = false;
+        button.classList.remove('opacity-50', 'cursor-not-allowed');
+        input.disabled = false;
+    }
+}
+
+function displayAiResults(text, sources) {
+    const resultsContainer = document.getElementById('ai-results');
+    const answerEl = document.getElementById('ai-answer');
+    const sourcesEl = document.getElementById('ai-sources');
+
+    answerEl.textContent = text;
+    sourcesEl.innerHTML = '';
+    
+    if (sources && sources.length > 0) {
+        sources.forEach(source => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${source.uri}" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">${source.title || source.uri}</a>`;
+            sourcesEl.appendChild(li);
+        });
+    } else {
+        if (!text.startsWith("Sorry")) {
+            sourcesEl.innerHTML = '<li>No specific sources were cited for this answer.</li>';
+        }
+    }
+    resultsContainer.classList.remove('hidden');
+}
+
+async function callGeminiApi(query, retries = 3, delay = 1000) {
+    const apiKey = "AIzaSyCYI1LQj6mGX6eiIscTadbhO0rMbCnmsaw";
+
+    //✅ Correct endpoint for current Gemini API (2025)
+    const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    // ✅ Simplified payload with optional search retrieval (still supported)
+     const payload = {
+        contents: [
+            {
+                parts: [
+                    { text: query }
+                ]
+            }
+        ]
+    };
+
+
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Client error: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            const text = result.candidates?.[0]?.content?.parts?.[0]?.text || null;
+
+            if (!text) throw new Error("Invalid response structure.");
+
+            return { text, sources: [] }; // You can add source parsing later
+
+        } catch (error) {
+            console.warn(`API call failed (attempt ${i + 1}/${retries}):`, error.message);
+            if (i === retries - 1) {
+                throw new Error(`Failed to get AI response after ${retries} attempts.`);
+            }
+            await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
+        }
+    }
+}
+
+
 // ---------------------- INITIALIZATION ----------------------
 function goHome(){
     const session = getSession();
