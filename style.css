@@ -1,18 +1,14 @@
 /* Apply Inter font to the whole site */
 body {
     font-family: 'Inter', sans-serif;
-    scroll-behavior: smooth; /* For smooth scrolling to anchors */
+    scroll-behavior: smooth;
 }
 
 /* Hide all pages by default */
-.page {
-    display: none;
-}
+.page { display: none; }
 
 /* Show only the active page */
-.page.active {
-    display: block;
-}
+.page.active { display: block; }
 
 /* Special style for the communication page to be full height */
 #page-communication.active {
@@ -22,9 +18,7 @@ body {
 }
 
 /* Style for file inputs */
-input[type="file"] {
-    font-size: 0.875rem;
-}
+input[type="file"] { font-size: 0.875rem; }
 input[type="file"]::file-selector-button {
     margin-right: 0.5rem;
     padding: 0.5rem 0.75rem;
@@ -36,15 +30,18 @@ input[type="file"]::file-selector-button {
     cursor: pointer;
     transition: background-color 0.2s;
 }
-input[type="file"]::file-selector-button:hover {
-    background-color: #F3F4F6;
-}
+input[type="file"]::file-selector-button:hover { background-color: #F3F4F6; }
 
 /* Style for Chat Sidebar */
-#comm-chat-sidebar {
-    transition: transform 0.3s ease-in-out;
-    transform: translateX(100%);
+#comm-chat-sidebar { transition: transform 0.3s ease-in-out; transform: translateX(100%); }
+#comm-chat-sidebar.open { transform: translateX(0); }
+
+/* Small responsive tweaks */
+@media (min-width: 1024px) {
+    .container { max-width: 1100px; }
 }
-#comm-chat-sidebar.open {
-    transform: translateX(0);
-}
+
+/* Group profession selected state (a bit of highlight but still matching theme) */
+.group-profession-btn.bg-indigo-50 { background-color: #eef2ff !important; border-color:#c7d2fe !important; }
+
+/* Keep other default Tailwind look & feel */
