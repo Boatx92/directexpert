@@ -369,7 +369,7 @@ function handleExpertSignup(event){ event.preventDefault(); hideFormError('exper
 function handleExpertLogin(event){ event.preventDefault(); hideFormError('expert-login-error'); const email = document.getElementById('expert-login-email').value; const password = document.getElementById('expert-login-password').value; const experts = getStorage(EXPERTS_DB_KEY); const expert = experts.find(e => e.email===email && e.password===password); if(expert){ createSession(expert,'expert'); document.getElementById('expert-dashboard-title').textContent = `Welcome, ${expert.name}!`; document.getElementById('expert-profile-data').innerHTML = `<strong>Name:</strong> ${expert.name}<br><strong>Email:</strong> ${expert.email}`; renderExpertAppointments(); showPage('page-expert-dashboard'); } else { showFormError('expert-login-error','Invalid email or password.'); } }
 
 // AI assistant (simple mock that stores queries)
-function handleAiQuery(e){ e.preventDefault(); const q = document.getElementById('ai-query-input').value.trim(); if(!q) return; document.getElementById('ai-loader').classList.remove('hidden'); document.getElementById('ai-results').classList.add('hidden'); setTimeout(()=>{ document.getElementById('ai-loader').classList.add('hidden'); document.getElementById('ai-results').classList.remove('hidden'); const answer = `This is a mock summarized answer for: "${q}". (Replace with real Google + AI integration.)`; document.getElementById('ai-answer').textContent = answer; document.getElementById('ai-sources').innerHTML = '<li>Example Source A</li><li>Example Source B</li>'; const session = getSession(); if(session && session.type==='client'){ const hist = getStorage(AI_HISTORY_DB_KEY); hist.push({ id: generateId(), clientEmail: session.email, query: q, answer, time: new Date().toISOString() }); setStorage(AI_HISTORY_DB_KEY,hist); } }, 900); }
+//function handleAiQuery(e){ e.preventDefault(); const q = document.getElementById('ai-query-input').value.trim(); if(!q) return; document.getElementById('ai-loader').classList.remove('hidden'); document.getElementById('ai-results').classList.add('hidden'); setTimeout(()=>{ document.getElementById('ai-loader').classList.add('hidden'); document.getElementById('ai-results').classList.remove('hidden'); const answer = `This is a mock summarized answer for: "${q}". (Replace with real Google + AI integration.)`; document.getElementById('ai-answer').textContent = answer; document.getElementById('ai-sources').innerHTML = '<li>Example Source A</li><li>Example Source B</li>'; const session = getSession(); if(session && session.type==='client'){ const hist = getStorage(AI_HISTORY_DB_KEY); hist.push({ id: generateId(), clientEmail: session.email, query: q, answer, time: new Date().toISOString() }); setStorage(AI_HISTORY_DB_KEY,hist); } }, 900); }
 
 // -------------------- GROUP DISCUSSION FEATURE --------------------
 // Display page where user can select multiple professions and pay a combined fee (₹500 per profession)
@@ -670,14 +670,21 @@ async function callGeminiApi(query, retries = 3, delay = 1000) {
 }
 
 
+
 // ---------------------- INITIALIZATION ----------------------
-function goHome(){
+function goHome() {
     const session = getSession();
-    if(session){
-        if(session.type === 'client') showPage('page-client-dashboard');
-        else if(session.type === 'expert') { renderExpertAppointments(); showPage('page-expert-dashboard'); }
+    if (session) {
+        if (session.type === 'client') {
+            showPage('page-client-dashboard');
+        } else if (session.type === 'expert') {
+            renderExpertAppointments(); // Refresh appointments
+            showPage('page-expert-dashboard');
+        }
         else showPage('page-home');
-    } else showPage('page-home');
+    } else {
+        showPage('page-home');
+    }
 }
 
 // Build group page and populate professions on start
